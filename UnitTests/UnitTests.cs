@@ -12,6 +12,7 @@ namespace UnitTests
 		{
 			var drink = AcuCafe.AcuCafe.OrderDrink("IceTea", true, true,false);
 			Assert.AreEqual(typeof(IceTea), drink.GetType());
+			Assert.AreEqual(true, drink.IsPrepared);
 			Assert.AreEqual(true, drink.HasMilk);
 			Assert.AreEqual(true, drink.HasSugar);
 		}
@@ -21,6 +22,7 @@ namespace UnitTests
 		{
 			var drink = AcuCafe.AcuCafe.OrderDrink("Espresso", true, true,false);
 			Assert.AreEqual(typeof(Espresso), drink.GetType());
+			Assert.AreEqual(true, drink.IsPrepared);
 			Assert.AreEqual(true, drink.HasMilk);
 			Assert.AreEqual(true, drink.HasSugar);
 		}
@@ -30,6 +32,7 @@ namespace UnitTests
 		{
 			var drink = AcuCafe.AcuCafe.OrderDrink("Espresso", false, false, true);
 			Assert.AreEqual(typeof(Espresso), drink.GetType());
+			Assert.AreEqual(true, drink.IsPrepared);
 			Assert.AreEqual(true, drink.HasChocolate);
 		}
 
@@ -37,7 +40,15 @@ namespace UnitTests
 		public void StopMilkInIceTea()
 		{
 			var drink = AcuCafe.AcuCafe.OrderDrink("IceTea", true, false, false);
-			Assert.IsNull(drink);
+			Assert.AreEqual(false,drink.IsPrepared);
+		}
+
+		[TestMethod]
+		public void NotifyBaristaAfterMilkInIceTea()
+		{
+			var drink = AcuCafe.AcuCafe.OrderDrink("IceTea", true, false, false);
+			Assert.AreEqual(false, drink.IsPrepared);
+			Assert.AreEqual(true, AcuCafe.AcuCafe.Barista.IsNotified);
 		}
 	}
 }

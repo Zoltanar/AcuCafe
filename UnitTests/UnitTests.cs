@@ -12,7 +12,7 @@ namespace UnitTests
 		{
 			var drink = AcuCafe.AcuCafe.OrderDrink("IceTea", true, true,false);
 			Assert.AreEqual(typeof(IceTea), drink.GetType());
-			Assert.AreEqual(true, drink.IsPrepared);
+			Assert.AreEqual(false, drink.IsPrepared);
 			Assert.AreEqual(true, drink.HasMilk);
 			Assert.AreEqual(true, drink.HasSugar);
 		}

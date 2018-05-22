@@ -4,7 +4,7 @@ namespace AcuCafe
 {
     public class AcuCafe
     {
-        public static Drink OrderDrink(string type, bool hasMilk, bool hasSugar)
+        public static Drink OrderDrink(string type, bool hasMilk, bool hasSugar, bool hasChocolate)
         {
             Drink drink = new Drink();
             if (type == "Espresso")
@@ -38,11 +38,11 @@ namespace AcuCafe
         public const double SugarCost = 0.5;
 
         public bool HasMilk { get; set; }
-
         public bool HasSugar { get; set; }
-        public string Description { get; }
+	    public bool HasChocolate { get; set; }
+		public string Description { get; }
 
-        public double Cost()
+	    public double Cost()
         {
             return 0;
         }

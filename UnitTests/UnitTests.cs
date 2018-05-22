@@ -10,25 +10,34 @@ namespace UnitTests
 		[TestMethod]
 		public void MakeIceTeaWithMilkSugar()
 		{
-			throw new NotImplementedException();
+			var drink = AcuCafe.AcuCafe.OrderDrink("IceTea", true, true,false);
+			Assert.AreEqual(typeof(IceTea), drink.GetType());
+			Assert.AreEqual(true, drink.HasMilk);
+			Assert.AreEqual(true, drink.HasSugar);
 		}
 
 		[TestMethod]
 		public void MakeEspressoWithMilkSugar()
 		{
-			throw new NotImplementedException();
+			var drink = AcuCafe.AcuCafe.OrderDrink("Espresso", true, true,false);
+			Assert.AreEqual(typeof(Espresso), drink.GetType());
+			Assert.AreEqual(true, drink.HasMilk);
+			Assert.AreEqual(true, drink.HasSugar);
 		}
 		
 		[TestMethod]
 		public void MakeEspressoWithChocolate()
 		{
-			throw new NotImplementedException();
+			var drink = AcuCafe.AcuCafe.OrderDrink("Espresso", false, false, true);
+			Assert.AreEqual(typeof(Espresso), drink.GetType());
+			Assert.AreEqual(true, drink.HasChocolate);
 		}
 
 		[TestMethod]
 		public void StopMilkInIceTea()
 		{
-			throw new NotImplementedException();
+			var drink = AcuCafe.AcuCafe.OrderDrink("IceTea", true, false, false);
+			Assert.IsNull(drink);
 		}
 	}
 }

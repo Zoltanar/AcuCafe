@@ -2,27 +2,40 @@
 
 namespace AcuCafe
 {
+	/// <summary>
+	/// Allows ordering drinks with certain components
+	/// </summary>
 	public class AcuCafe
 	{
+		/// <summary>
+		/// This contains an instance of a barista who has responsibility over the Cafe(s).
+		/// </summary>
 		public static Barista Barista { get; } = new Barista();
+
 		public static Drink OrderDrink(string type, bool hasMilk, bool hasSugar, bool hasChocolate)
 		{
-			Drink drink = new Drink();
-			if (type == "Espresso")
+			Drink drink;
+			switch (type)
 			{
-				drink = new Espresso();
+				case "Espresso":
+					drink = new Espresso();
+					break;
+				case "HotTea":
+					drink = new Tea();
+					break;
+				case "IceTea":
+					drink = new IceTea();
+					break;
+				default:
+					drink = new Drink();
+					break;
 			}
-			else if (type == "HotTea")
-				drink = new Tea();
-			else if (type == "IceTea")
-				drink = new IceTea();
-
 			try
 			{
 				drink.HasMilk = hasMilk;
 				drink.HasSugar = hasSugar;
 				drink.HasChocolate = hasChocolate;
-				drink.Prepare(type);
+				drink.Prepare();
 			}
 			catch (Exception ex)
 			{
@@ -30,11 +43,13 @@ namespace AcuCafe
 				Console.WriteLine(ex.Message);
 				System.IO.File.WriteAllText(@"Error.txt", ex.ToString());
 			}
-
 			return drink;
 		}
 	}
 
+	/// <summary>
+	/// An entity responsible for maintaining the cafe.
+	/// </summary>
 	public class Barista
 	{
 		public bool IsNotified { get; set; }
@@ -48,7 +63,7 @@ namespace AcuCafe
 
 		private void HandleIssue()
 		{
-			//todo the barista would do something at this point then remove the isnotified flag.
+			//todo the barista would do something at this point then remove the IsNotified flag.
 		}
 	}
 
@@ -60,7 +75,7 @@ namespace AcuCafe
 		public bool HasMilk { get; set; }
 		public bool HasSugar { get; set; }
 		public bool HasChocolate { get; set; }
-		public string Description { get; }
+		public string Description => "Drink";
 		public bool? IsPrepared { get; set; }
 
 		public double Cost()
@@ -68,7 +83,7 @@ namespace AcuCafe
 			return 0;
 		}
 
-		public virtual void Prepare(string drink)
+		public virtual void Prepare()
 		{
 			try
 			{
@@ -90,25 +105,17 @@ namespace AcuCafe
 
 	public class Espresso : Drink
 	{
-		public new string Description
-		{
-			get { return "Espresso"; }
-		}
+		public new string Description => "Espresso";
 
 		public new double Cost()
 		{
 			double cost = 1.8;
-
-			if (HasMilk)
-				cost += MilkCost;
-
-			if (HasSugar)
-				cost += SugarCost;
-
+			if (HasMilk) cost += MilkCost;
+			if (HasSugar) cost += SugarCost;
 			return cost;
 		}
 
-		public override void Prepare(string drink)
+		public override void Prepare()
 		{
 			try
 			{
@@ -129,25 +136,18 @@ namespace AcuCafe
 
 	public class Tea : Drink
 	{
-		public new string Description
-		{
-			get { return "Hot tea"; }
-		}
+		public new string Description => "Hot tea";
 
 		public new double Cost()
 		{
 			double cost = 1;
-
-			if (HasMilk)
-				cost += MilkCost;
-
-			if (HasSugar)
-				cost += SugarCost;
+			if (HasMilk) cost += MilkCost;
+			if (HasSugar) cost += SugarCost;
 
 			return cost;
 		}
 
-		public override void Prepare(string drink)
+		public override void Prepare()
 		{
 			try
 			{
@@ -168,26 +168,17 @@ namespace AcuCafe
 
 	public class IceTea : Drink
 	{
-		public new string Description
-		{
-			get { return "Ice tea"; }
-		}
+		public new string Description => "Ice tea";
 
 		public new double Cost()
 		{
 			double cost = 1.5;
-
-			if (HasMilk)
-				cost += MilkCost;
-
-			if (HasSugar)
-				cost += SugarCost;
-
+			if (HasMilk) cost += MilkCost;
+			if (HasSugar) cost += SugarCost;
 			return cost;
 		}
-
-
-		public override void Prepare(string drink)
+		
+		public override void Prepare()
 		{
 			try
 			{

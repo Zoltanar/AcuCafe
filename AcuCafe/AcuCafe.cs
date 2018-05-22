@@ -7,9 +7,9 @@ namespace AcuCafe
         public static Drink OrderDrink(string type, bool hasMilk, bool hasSugar)
         {
             Drink drink = new Drink();
-            if (type == "Expresso")
+            if (type == "Espresso")
             {
-                drink = new Expresso();
+                drink = new Espresso();
             }
             else if (type == "HotTea")
                 drink = new Tea();
@@ -51,24 +51,24 @@ namespace AcuCafe
         {
             string message = "We are preparing the following drink for you: " + Description;
             if (HasMilk)
-                message += "with milk";
+                message += " with milk";
             else
-                message += "without milk";
+                message += " without milk";
 
             if (HasSugar)
-                message += "with sugar";
+                message += " with sugar";
             else
-                message += "without sugar";
+                message += " without sugar";
 
             Console.WriteLine(message);
         }
     }
 
-    public class Expresso : Drink
+    public class Espresso : Drink
     {
         public new string Description
         {
-            get { return "Expresso"; }
+            get { return "Espresso"; }
         }
 
         public new double Cost()

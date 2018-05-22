@@ -21,11 +21,13 @@ namespace AcuCafe
 			{
 				drink.HasMilk = hasMilk;
 				drink.HasSugar = hasSugar;
+				drink.HasChocolate = hasChocolate;
 				drink.Prepare(type);
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("We are unable to prepare your drink.");
+				Console.WriteLine(ex.Message);
 				System.IO.File.WriteAllText(@"Error.txt", ex.ToString());
 			}
 
@@ -36,6 +38,18 @@ namespace AcuCafe
 	public class Barista
 	{
 		public bool IsNotified { get; set; }
+
+		public void Notify()
+		{
+			IsNotified = true;
+			HandleIssue();
+		}
+
+
+		private void HandleIssue()
+		{
+			//todo the barista would do something at this point then remove the isnotified flag.
+		}
 	}
 
 	public class Drink
@@ -56,18 +70,21 @@ namespace AcuCafe
 
 		public virtual void Prepare(string drink)
 		{
-			string message = "We are preparing the following drink for you: " + Description;
-			if (HasMilk)
-				message += " with milk";
-			else
-				message += " without milk";
-
-			if (HasSugar)
-				message += " with sugar";
-			else
-				message += " without sugar";
-
-			Console.WriteLine(message);
+			try
+			{
+				string message = "We are preparing the following drink for you: " + Description;
+				if (HasMilk) message += " with milk";
+				else message += " without milk";
+				if (HasSugar) message += " with sugar";
+				else message += " without sugar";
+				Console.WriteLine(message);
+				IsPrepared = true;
+			}
+			catch
+			{
+				IsPrepared = false;
+				throw;
+			}
 		}
 	}
 
@@ -93,11 +110,20 @@ namespace AcuCafe
 
 		public override void Prepare(string drink)
 		{
-			string message = "We are preparing the following drink for you: " + Description;
-			message += HasMilk ? " with milk" : " without milk";
-			message += HasSugar ? " with sugar" : " without sugar";
-			message += HasChocolate ? " with chocolate" : " without chocolate";
-			Console.WriteLine(message);
+			try
+			{
+				string message = "We are preparing the following drink for you: " + Description;
+				message += HasMilk ? " with milk" : " without milk";
+				message += HasSugar ? " with sugar" : " without sugar";
+				message += HasChocolate ? " with chocolate" : " without chocolate";
+				Console.WriteLine(message);
+				IsPrepared = true;
+			}
+			catch
+			{
+				IsPrepared = false;
+				throw;
+			}
 		}
 	}
 
@@ -123,11 +149,20 @@ namespace AcuCafe
 
 		public override void Prepare(string drink)
 		{
-			string message = "We are preparing the following drink for you: " + Description;
-			message += HasMilk ? " with milk" : " without milk";
-			message += HasSugar ? " with sugar" : " without sugar";
-			if (HasChocolate) throw new ArgumentException("This drink cannot contain chocolate", nameof(HasChocolate));
-			Console.WriteLine(message);
+			try
+			{
+				string message = "We are preparing the following drink for you: " + Description;
+				message += HasMilk ? " with milk" : " without milk";
+				message += HasSugar ? " with sugar" : " without sugar";
+				if (HasChocolate) throw new ArgumentException("This drink cannot contain chocolate", nameof(HasChocolate));
+				Console.WriteLine(message);
+				IsPrepared = true;
+			}
+			catch
+			{
+				IsPrepared = false;
+				throw;
+			}
 		}
 	}
 
@@ -154,12 +189,25 @@ namespace AcuCafe
 
 		public override void Prepare(string drink)
 		{
-			string message = "We are preparing the following drink for you: " + Description;
-			if (HasMilk) throw new ArgumentException("This drink cannot contain milk", nameof(HasChocolate));
-			message += " without milk";
-			message += HasSugar ? " with sugar" : " without sugar";
-			if (HasChocolate) throw new ArgumentException("This drink cannot contain chocolate", nameof(HasChocolate));
-			Console.WriteLine(message);
+			try
+			{
+				string message = "We are preparing the following drink for you: " + Description;
+				if (HasMilk)
+				{
+					AcuCafe.Barista.Notify();
+					throw new ArgumentException("This drink cannot contain milk", nameof(HasMilk));
+				}
+				message += " without milk";
+				message += HasSugar ? " with sugar" : " without sugar";
+				if (HasChocolate) throw new ArgumentException("This drink cannot contain chocolate", nameof(HasChocolate));
+				Console.WriteLine(message);
+				IsPrepared = true;
+			}
+			catch
+			{
+				IsPrepared = false;
+				throw;
+			}
 		}
 	}
 }
